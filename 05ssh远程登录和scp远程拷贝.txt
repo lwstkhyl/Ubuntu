@@ -1,0 +1,9 @@
+ssh远程登录：
+Ubuntu端：sudo apt-get install openssh-server
+windows端：https://learn.microsoft.com/zh-cn/windows-server/administration/openssh/openssh_install_firstuse
+设置环境变量path中添加c:/windows/system32/openssh文件夹或者直接在这个文件夹中打开终端，输入ssh Linux用户名@LinuxIP地址（如ssh teacher@1.1.1.1），输入用户密码后即可连接成功
+获取Linux系统IP地址：Ubuntu中右上角“有线已连接”->“有线设置”->“网络”->有线那栏里面的设置按钮，查看ipv4地址就是Linux系统IP地址
+
+scp远程拷贝：
+上传：把Windows上的文件拷贝到Linux上，使用scp 本地路径 Linux用户名@LinuxIP地址:远程路径（如在Windows上输入scp C:/Users/xxx/Desktop/ubuntu/04文件权限与用户管理.txt xxx@1.1.1.1:/home/xxx/scp_test.txt），输入密码后即可拷贝，在此之前不必使用ssh登录
+下载：把Linux上的文件下载到Windows上，使用scp Linux用户名@LinuxIP地址:远程路径 本地路径（如在Windows上输入scp xxx@1.1.1.1:/home/xxx/test/ls.txt C:/Users/xxx/Desktop/ubuntu/test.txt），输入密码后即可拷贝，在此之前也不必使用ssh登录

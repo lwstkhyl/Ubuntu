@@ -1,0 +1,27 @@
+能够显示CPU、内存、硬盘使用率；能够显示当前服务器网络收发情况；能够显示CPU总核心数、总内存、总硬盘；能够将日志信息保存到log.txt中；能够直接执行该程序
+#系统定时监控：定义一个函数，实现信息显示和日志的保存，之后设置一个循环，定时调用该函数
+import psutil,datetime
+def monitor(time):#获取信息
+    #准备工作↓
+    cpu_per=psutil.cpu_percent(interval=time)#CPU使用率，参数为刷新频率，每隔time才执行一次这条语句，就可以实现函数的定时调用
+    memory_info=psutil.virtual_memory()#获取内存信息
+    disk_info=psutil.disk_usage("/")#获取磁盘信息，参数为Ubuntu里面的目录，"/"表示根目录
+    net_info=psutil.net_io_counters()#获取网络信息
+    current_time=datetime.datetime.now().strftime("%F %T")#转成同时显示日期和时间的格式
+    #显示框架↓   %d就是整数的占位符,结尾内容会取代%d（按顺序）,%s是字符串占位符,两个%转义成1个
+    log_str="|-------------------|------------|-------------|-------------|------------------------|\n"
+    log_str+="|      监控时间     |  cpu使用率  |  内存使用率 |  硬盘使用率  |       网络收发量       |\n"
+    log_str+="|                   | (共%d核CPU) |（总计%dG内存）|（总计%dG硬盘）|                      |\n" %(psutil.cpu_count(logical=False),memory_info.total/1024/1024/1024,disk_info.total/1024/1024/1024)#memory_info.total和disk_info.total返回的都是字节数，需要变成g单位
+    log_str+="|-------------------|------------|-------------|-------------|------------------------|\n"
+    log_str+="|%s|    %s%%   |    %s%%    |    %s%%    | 收:%s/发:%s |\n" %(current_time,cpu_per,memory_info.percent,disk_info.percent,net_info.bytes_recv,net_info.bytes_sent)
+    log_str+="|-------------------|------------|-------------|-------------|------------------------|\n"
+    with open("log.txt",'a',encoding='utf-8') as fp:
+        fp.write(log_str+"\n"+"\n")#写入到文件中
+def main():#程序入口，定时调用monitor
+    while True:
+        monitor(5)#刷新频率设为5s，
+#__name__：如果该文件别其他文件导入，此时它的值就是check.py，如果直接运行该文件，它的值就是__main__
+if __name__ == '__main__':#只有该文件被独立运行时才执行系统性能监控
+    main()
+
+在终端运行.py程序：直接终端输入python3 check.py；或者在python代码的第一行添加#!python解释器位置（就是pycharm中运行结果的第一行的第一个路径，如#!/usr/bin/python3），修改权限chmod u+x check.py，再./check.py
