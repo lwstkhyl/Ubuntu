@@ -1,0 +1,16 @@
+import yagmail
+#创建yagmail类对象，参数分别为发件人、发件人授权码、发件的服务器）这些信息都能在对应的邮箱网站上找到
+yag_obj=yagmail.SMTP(user="1271943237@qq.com",password="iepaqpzjczbxjfbf",host="smtp.qq.com")
+#发送邮件，参数分别为指定收件人、邮件主题、发送的内容
+content="test内容"
+title="test主题"
+yag_obj.send("17185714105@163.com",title,content)
+
+使用yagmail发送性能监控的信息：
+import psutil,datetime
+import yagmail
+#中间内容同之前的性能监控
+if cpu_per > 80 or memory_info.percent > 80:  # 当内存占用超过80%或CPU占用超过80%才发送邮件
+    yag_obj = yagmail.SMTP(user="1271943237@qq.com", password="iepaqpzjczbxjfbf", host="smtp.qq.com")
+    title = "test性能监控"
+    yag_obj.send("17185714105@163.com", title, log_str)
