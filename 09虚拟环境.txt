@@ -1,0 +1,14 @@
+使用sudo pip install virtualenv和sudo pip install virtualenvwrapper安装虚拟环境
+配置环境变量操作见https://blog.csdn.net/qq_19394437/article/details/108445621
+mkdir $HOME/.virtualenvs创建目录用来存放虚拟环境，默认创建位置为主目录，此时按ctrl+h可以显示隐藏目录.virtualenvs即为虚拟环境，注意创建虚拟环境时需要联网，默认安装的虚拟环境为python3.10
+
+找不到workon命令时就输入
+export VIRTUALENVWRAPPER=/usr/bin/python3
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source /usr/local/bin/virtualenvwrapper.sh
+这三行
+
+使用mkvirtualenv mywork创建名为mywork的虚拟环境，rmvirtualenv mywork删除名为mywork的虚拟环境
+使用指定版本的python创建虚拟环境：先不workon，使用which python3获取解释器路径，之后用mkvirtualenv -p 路径 虚拟环境名  来创建（如mkvirtualenv -p /usr/bin/python3 test）
+workon mywork可以进入mywork的虚拟环境，使用deactivate退出虚拟环境
+不同虚拟环境中可以装不同版本的包（以下虚拟环境都指的是python环境），在pycharm中也可以创建不同虚拟环境下的项目（首次使用需在previously configured interpreter右侧的add interpreter中添加mywork文件夹中的python3.10来创建）
